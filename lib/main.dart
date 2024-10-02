@@ -37,15 +37,35 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
         title: const Text('Fading Text Animation'),
       ),
       body: Center(
-        child: AnimatedOpacity(
-          opacity: _isVisible ? 1.0 : 0.0,
-          duration: const Duration(seconds: 1),
-          child: const Text(
-            'Hello, Flutter!',
-            style: TextStyle(fontSize: 24),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: toggleVisibility,
+              child: AnimatedOpacity(
+                opacity: _isVisible ? 1.0 : 0.0,
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeInOut,  // Apply curve for smooth transition
+                child: Column(
+                  children: [
+                    const Text(
+                      'Hello, Flutter!',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    const SizedBox(height: 20),
+                    Image.asset(
+                      'assets/images/Pumpkinhead.png',
+                      width: 100,
+                      height: 100,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: toggleVisibility,
         child: const Icon(Icons.play_arrow),
