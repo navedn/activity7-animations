@@ -24,9 +24,17 @@ class FadingTextAnimation extends StatefulWidget {
 
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
   bool _isVisible = true;
+  double _rotationAngle = 0;
+
   void toggleVisibility() {
     setState(() {
       _isVisible = !_isVisible;
+    });
+  }
+
+  void rotateDaGhost() {
+    setState(() {
+      _rotationAngle += 3.14 * 2; // 360 degrees rotation
     });
   }
 
@@ -34,7 +42,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fading Text Animation'),
+        title: const Text('Fading Text Animation // Click the Ghost!!!'),
       ),
       body: Center(
         child: Column(
@@ -45,7 +53,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
               child: AnimatedOpacity(
                 opacity: _isVisible ? 1.0 : 0.0,
                 duration: const Duration(seconds: 1),
-                curve: Curves.easeInOut,  // Apply curve for smooth transition
+                curve: Curves.easeInOut, // Apply curve for smooth transition
                 child: Column(
                   children: [
                     const Text(
@@ -58,6 +66,23 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
                       width: 100,
                       height: 100,
                     ),
+                    GestureDetector(
+                      onTap: rotateDaGhost, // Trigger rotation on tap
+                      child: AnimatedContainer(
+                        duration: const Duration(seconds: 2),
+                        child: AnimatedRotation(
+                          turns: _rotationAngle /
+                              (2 * 3.14), // Full rotation (360 degrees)
+                          duration: const Duration(seconds: 2),
+                          child: Image.asset(
+                            'assets/images/ghost.png',
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -65,7 +90,6 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: toggleVisibility,
         child: const Icon(Icons.play_arrow),
